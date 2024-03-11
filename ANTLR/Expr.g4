@@ -21,7 +21,7 @@ unaryExpression
     | MINUS unaryExpression
     | func_
     | atom
-    | FACTORIAL
+    | atom FACTORIAL
     ;
 
 atom
@@ -131,7 +131,7 @@ DIV
     ;
 
 POW
-    : '^'
+    : '**'
     ;
 
 FACTORIAL
