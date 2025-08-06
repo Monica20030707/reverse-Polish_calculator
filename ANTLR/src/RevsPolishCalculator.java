@@ -13,7 +13,8 @@ public class RevsPolishCalculator {
         String line;
         System.out.print("Input expression: ");
         while ((line = reader.readLine()) != null) {
-            ANTLRInputStream input = new ANTLRInputStream(line);
+            line = line.replace("\u2061", "");
+            ANTLRInputStream input = new ANTLRInputStream(line + "\n");
             ExprLexer lexer = new ExprLexer(input);
             CommonTokenStream tokens = new CommonTokenStream(lexer);
             ExprParser parser = new ExprParser(tokens);

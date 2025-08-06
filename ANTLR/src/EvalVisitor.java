@@ -38,6 +38,9 @@ public class EvalVisitor extends ExprBaseVisitor<Double> {
             rpn.append("* ");
             return left * right;
         }
+        if (right == 0) {
+            throw new ArithmeticException("Division by zero");
+        }
         rpn.append("/ ");
         return left / right;
     }
