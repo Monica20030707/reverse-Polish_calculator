@@ -1,190 +1,68 @@
 grammar Expr;
 
-equation
-    : expression EOF
+prog: stat+;
+
+stat: expr NEWLINE;
+
+expr:
+    <assoc=right> expr POW expr                     # power
+    | MINUS expr                                    # unaryMinus
+    | expr FACTORIAL                                # factorial
+    | expr (TIMES | DIV) expr                       # mulDiv
+    | expr (PLUS | MINUS) expr                      # addSub
+    | atom                                          # anAtom
     ;
 
-expression
-    : multiplyingExpression ((PLUS | MINUS) multiplyingExpression)*
+atom:
+    scientific                                      # scientificAtom
+    | constant                                      # constantAtom
+    | func_                                         # function
+    | LPAREN expr RPAREN                            # parens
     ;
 
-multiplyingExpression
-    : powExpression ((TIMES | DIV) powExpression)*
-    ;
+scientific:
+    SCIENTIFIC_NUMBER;
 
-powExpression
-    : unaryExpression (POW unaryExpression)*
-    ;
-
-unaryExpression
-    : PLUS unaryExpression
-    | MINUS unaryExpression
-    | func_
-    | atom
-    | atom FACTORIAL
-    ;
-
-atom
-    : scientific
-    | variable
-    | constant
-    | LPAREN expression RPAREN
-    ;
-
-scientific
-    : SCIENTIFIC_NUMBER
-    ;
-
-constant
-    : PI
+constant:
+    PI
     | EULER
     ;
 
-variable
-    : VARIABLE
+func_:
+    funcname LPAREN expr (COMMA expr)* RPAREN;
+
+funcname:
+    COS | TAN | SIN | ACOS | ATAN | ASIN | LOG | LN | SINH | COSH | TANH
     ;
 
-func_
-    : funcname LPAREN expression (COMMA expression)* RPAREN
-    ;
+COS: 'cos';
+SIN: 'sin';
+TAN: 'tan';
+ACOS: 'acos';
+ASIN: 'asin';
+ATAN: 'atan';
+LN: 'ln';
+LOG: 'log';
+SINH: 'sinh';
+COSH: 'cosh';
+TANH: 'tanh';
 
-funcname
-    : COS
-    | TAN
-    | SIN
-    | ACOS
-    | ATAN
-    | ASIN
-    | LOG
-    | LN
-    | SINH
-    | COSH
-    | TANH
-    ;
-
-COS
-    : 'cos'
-    ;
-
-SIN
-    : 'sin'
-    ;
-
-TAN
-    : 'tan'
-    ;
-
-ACOS
-    : 'acos'
-    ;
-
-ASIN
-    : 'asin'
-    ;
-
-ATAN
-    : 'atan'
-    ;
-
-LN
-    : 'ln'
-    ;
-
-LOG
-    : 'log'
-    ;
-
-SINH
-    : 'sinh'
-    ;
-
-COSH
-    : 'cosh'
-    ;
-
-TANH
-    : 'tanh'
-    ;
-
-LPAREN
-    : '('
-    ;
-
-RPAREN
-    : ')'
-    ;
-
-PLUS
-    : '+'
-    ;
-
-MINUS
-    : '-'
-    ;
-
-TIMES
-    : '*'
-    ;
-
-DIV
-    : '/'
-    ;
-
-POW
-    : '**'
-    ;
-
-FACTORIAL
-    : '!'
-    ;
-
-PI
-    : 'pi'
-    ;
-
-EULER
-    : 'e'
-    ;
-COMMA
-    : ','
-    ;
-
-VARIABLE
-    : VALID_ID_START VALID_ID_CHAR*
-    ;
-
-fragment VALID_ID_START
-    : 'a' .. 'z'
-    | 'A' .. 'Z'
-    | '_'
-    ;
-
-fragment VALID_ID_CHAR
-    : VALID_ID_START
-    | '0' .. '9'
-    ;
+LPAREN: '(';
+RPAREN: ')';
+PLUS: '+';
+MINUS: '-';
+TIMES: '*' | '×';
+DIV: '/' | '÷';
+POW: '**';
+FACTORIAL: '!';
+PI: 'pi';
+EULER: 'e';
+COMMA: ',';
 
 SCIENTIFIC_NUMBER
-    : NUMBER ((E1 | E2) SIGN? NUMBER)?
+    : [0-9]+ ('.' [0-9]+)? ([eE] [+-]? [0-9]+)?
     ;
 
-fragment NUMBER
-    : '0' ..'9'+ ('.' '0' ..'9'+)?
-    ;
+NEWLINE:'\r'? '\n' | EOF;
 
-fragment E1
-    : 'E'
-    ;
-
-fragment E2
-    : 'e'
-    ;
-
-fragment SIGN
-    : '+'
-    | '-'
-    ;
-
-WS
-    : [ \r\n\t]+ -> skip
-    ;
+WS: [ 	]+ -> skip;
