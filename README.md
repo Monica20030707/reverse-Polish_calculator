@@ -4,47 +4,45 @@ This project implements a Reverse Polish Notation (RPN) calculator using ANTLR f
 
 ## Project Structure
 
--   `ANTLR/Expr.g4`: The ANTLR grammar definition for the calculator.
--   `ANTLR/src/`: Contains the generated ANTLR lexer/parser files and the custom visitor (`EvalVisitor.java`) for expression evaluation, along with the main application (`RevsPolishCalculator.java`).
--   `ANTLR/test/`: Contains unit tests for the calculator.
--   `ANTLR/lib/`: Contains necessary ANTLR and JUnit JAR files.
--   `ANTLR/build/`: Contains compiled Java classes.
+-   `Expr.g4`: The ANTLR grammar definition for the calculator.
+-   `src/`: Contains the source files.
+    -   `RevsPolishCalculator.java`: The main application class.
+    -   `EvalVisitor.java`: The custom visitor for expression evaluation.
+    -   `ANTLR/`: Contains the generated ANTLR lexer and parser files.
+-   `test/`: Contains unit tests for the calculator.
+-   `lib/`: Contains necessary ANTLR and JUnit JAR files.
+-   `build/`: Contains compiled Java classes.
 
-## How to Run the Application
+## How to Build and Run the Application
 
-To run the Reverse Polish Calculator, navigate to the project root directory and execute the following commands.
+To build and run the Reverse Polish Calculator, navigate to the project root directory and execute the following commands.
 
-First, compile all necessary Java source files:
+**1. Generate ANTLR Parser and Lexer:**
 ```bash
-javac -cp "ANTLR/lib/antlr-4.13.1-complete.jar" ANTLR/src/ANTLR/*.java ANTLR/src/*.java -d ANTLR/build/revspolishcalculator
+java -jar lib/antlr-4.13.1-complete.jar -o src/ANTLR -visitor -package ANTLR Expr.g4
 ```
 
-Then, run the main application:
+**2. Compile the Source Code:**
 ```bash
-java -cp "ANTLR/lib/antlr-4.13.1-complete.jar:ANTLR/build/revspolishcalculator" revspolishcalculator.RevsPolishCalculator
+javac -d build -cp src:lib/antlr-4.13.1-complete.jar src/*.java src/ANTLR/*.java
 ```
 
+**3. Run the Application:**
+```bash
+java -cp build:lib/antlr-4.13.1-complete.jar RevsPolishCalculator
+```
 After running the command, the application will prompt you to "Input expression:". You can type an infix mathematical expression (e.g., `1 + 2 * 3`) and press Enter to see the RPN conversion and the calculated result.
 
 ## How to Run Unit Tests
 
 To run the unit tests, navigate to the project root directory and execute the following commands.
 
-First, compile the unit test file:
-
+**1. Compile the Test Files:**
 ```bash
-javac -cp "ANTLR/lib/antlr-4.13.1-complete.jar:ANTLR/lib/junit-platform-console-standalone.jar:ANTLR/build/revspolishcalculator" ANTLR/test/UnitTest.java -d ANTLR/build/revspolishcalculator
+javac -d build -cp build:lib/junit-platform-console-standalone.jar:lib/antlr-4.13.1-complete.jar test/UnitTest.java
 ```
 
-Then, run the tests using the JUnit console runner:
-
+**2. Run the Tests:**
 ```bash
-java -jar ANTLR/lib/junit-platform-console-standalone.jar -cp ANTLR/build/revspolishcalculator:ANTLR/lib/antlr-4.13.1-complete.jar --scan-classpath --include-classname=revspolishcalculator.UnitTest
+java -jar lib/junit-platform-console-standalone.jar --classpath build:lib/antlr-4.13.1-complete.jar --select-class UnitTest
 ```
-
-## Current Status
-
--   The ANTLR grammar (`Expr.g4`) is defined and used to generate the lexer and parser.
--   The `EvalVisitor.java` correctly traverses the parse tree and performs calculations.
--   The `RevsPolishCalculator.java` application successfully reads infix expressions, converts them to Reverse Polish Notation, and evaluates them.
--   Unit tests are available to verify the calculator's functionality.
