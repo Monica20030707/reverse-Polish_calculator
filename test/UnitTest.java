@@ -14,7 +14,7 @@ public class UnitTest {
         // Remove the problematic Unicode character if present
         expression = expression.replace("\u2061", "");
         // Add newline for the grammar to correctly parse the end of the input
-        ANTLRInputStream input = new ANTLRInputStream(expression + "\n");
+        CharStream input = CharStreams.fromString(expression + "\n");
         ExprLexer lexer = new ExprLexer(input);
         CommonTokenStream tokens = new CommonTokenStream(lexer);
         ExprParser parser = new ExprParser(tokens);
