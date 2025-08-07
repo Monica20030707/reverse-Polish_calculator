@@ -55,7 +55,7 @@ TIMES: '*' | '×';
 DIV: '/' | '÷';
 POW: '**';
 FACTORIAL: '!';
-PI: 'pi';
+PI: 'pi' | 'π';
 EULER: 'e';
 COMMA: ',';
 

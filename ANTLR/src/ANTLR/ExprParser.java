@@ -35,7 +35,7 @@ public class ExprParser extends Parser {
 		return new String[] {
 			null, "'cos'", "'sin'", "'tan'", "'acos'", "'asin'", "'atan'", "'ln'", 
 			"'log'", "'sinh'", "'cosh'", "'tanh'", "'('", "')'", "'+'", "'-'", null, 
-			null, "'**'", "'!'", "'pi'", "'e'", "','"
+			null, "'**'", "'!'", null, "'e'", "','"
 		};
 	}
 	private static final String[] _LITERAL_NAMES = makeLiteralNames();

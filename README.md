@@ -16,12 +16,12 @@ To run the Reverse Polish Calculator, navigate to the project root directory and
 
 First, compile all necessary Java source files:
 ```bash
-javac -cp "ANTLR/lib/antlr-4.13.1-complete.jar" ANTLR/src/RevsPolishCalculator.java ANTLR/src/EvalVisitor.java ANTLR/src/ANTLR/*.java -d ANTLR/build/
+javac -cp "ANTLR/lib/antlr-4.13.1-complete.jar" ANTLR/src/ANTLR/*.java ANTLR/src/*.java -d ANTLR/build/revspolishcalculator
 ```
 
 Then, run the main application:
 ```bash
-java -cp "ANTLR/lib/antlr-4.13.1-complete.jar:ANTLR/build" revspolishcalculator.RevsPolishCalculator
+java -cp "ANTLR/lib/antlr-4.13.1-complete.jar:ANTLR/build/revspolishcalculator" revspolishcalculator.RevsPolishCalculator
 ```
 
 After running the command, the application will prompt you to "Input expression:". You can type an infix mathematical expression (e.g., `1 + 2 * 3`) and press Enter to see the RPN conversion and the calculated result.
@@ -31,13 +31,15 @@ After running the command, the application will prompt you to "Input expression:
 To run the unit tests, navigate to the project root directory and execute the following commands.
 
 First, compile the unit test file:
+
 ```bash
-javac -cp "ANTLR/lib/antlr-4.13.1-complete.jar:ANTLR/lib/junit-platform-console-standalone.jar:ANTLR/build" ANTLR/test/UnitTest.java -d ANTLR/build/
+javac -cp "ANTLR/lib/antlr-4.13.1-complete.jar:ANTLR/lib/junit-platform-console-standalone.jar:ANTLR/build/revspolishcalculator" ANTLR/test/UnitTest.java -d ANTLR/build/revspolishcalculator
 ```
 
 Then, run the tests using the JUnit console runner:
+
 ```bash
-java -jar ANTLR/lib/junit-platform-console-standalone.jar --class-path ANTLR/build --scan-classpath
+java -jar ANTLR/lib/junit-platform-console-standalone.jar -cp ANTLR/build/revspolishcalculator:ANTLR/lib/antlr-4.13.1-complete.jar --scan-classpath --include-classname=revspolishcalculator.UnitTest
 ```
 
 ## Current Status
